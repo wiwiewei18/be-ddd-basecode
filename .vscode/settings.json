@@ -1,0 +1,5 @@
+{
+  "cucumberautocomplete.syncfeatures": "tests/modules/**/*.feature",
+  "cucumberautocomplete.steps": ["src/modules/**/useCases/**/*.unit.ts"],
+  "cucumberautocomplete.strictGherkinCompletion": true
+}
