@@ -1,22 +1,22 @@
 {
-  "name": "be-ddd-basecode",
-  "module": "index.ts",
-  "type": "module",
-  "scripts": {
-    "prepare": "husky",
-    "lint": "biome check --files-ignore-unknown=true",
-    "lint:fix": "biome check --write --unsafe --no-errors-on-unmatched",
-    "lint:staged": "biome check --write --unsafe --no-errors-on-unmatched --staged --files-ignore-unknown=true",
-    "build": "bun build ./src/index.ts --outdir ./build --target bun --minify",
-    "start": "bun run ./build/index.js",
-    "start:dev": "bun --hot src/index.ts"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
-    "@types/bun": "latest",
-    "husky": "^9.1.7"
-  },
-  "peerDependencies": {
-    "typescript": "^5.0.0"
-  }
+	"name": "be-ddd-basecode",
+	"module": "index.ts",
+	"type": "module",
+	"scripts": {
+		"prepare": "husky",
+		"lint": "biome check --files-ignore-unknown=true",
+		"lint:fix": "biome check --write --unsafe --no-errors-on-unmatched",
+		"lint:staged": "biome check --write --unsafe --no-errors-on-unmatched --staged --files-ignore-unknown=true",
+		"build": "bun build ./src/index.ts --outdir ./build --target bun --minify",
+		"start": "bun run ./build/index.js",
+		"start:dev": "bun --hot src/index.ts"
+	},
+	"devDependencies": {
+		"@biomejs/biome": "^1.9.4",
+		"@types/bun": "latest",
+		"husky": "^9.1.7"
+	},
+	"peerDependencies": {
+		"typescript": "^5.0.0"
+	}
 }
