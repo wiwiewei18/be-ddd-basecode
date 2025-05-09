@@ -53,4 +53,21 @@ export class UserPassword extends ValueObject<UserPasswordProps> {
 	private hashPassword(userPassword: string): string {
 		return bcrypt.hashSync(userPassword, 10);
 	}
+
+	public comparePassword(plainUserPassword: string): boolean {
+		let hashedUserPassword: string;
+		if (this.isAlreadyHashed()) {
+			hashedUserPassword = this.props.value;
+			return this.comparePasswordWithBcrypt(plainUserPassword, hashedUserPassword);
+		}
+		return this.props.value === plainUserPassword;
+	}
+
+	private comparePasswordWithBcrypt(plainUserPassword: string, hashedUserPassword: string) {
+		try {
+			return bcrypt.compareSync(plainUserPassword, hashedUserPassword);
+		} catch (error) {
+			return false;
+		}
+	}
 }

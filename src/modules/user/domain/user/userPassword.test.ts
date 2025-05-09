@@ -36,12 +36,40 @@ describe('UserPassword Unit', () => {
 		expect(userPasswordOrError.isFailure).toBe(true);
 	});
 
-	it(`should return success and hashed user password when given a valid user password`, () => {
+	it('should return hashed user password when given a valid user password', () => {
 		const userPassword = '12346578';
 
 		const userPasswordOrError = UserPassword.create({ value: userPassword });
 
-		expect(userPasswordOrError.isSuccess).toBe(true);
 		expect(userPasswordOrError.getValue().getHashedValue() !== userPassword).toBe(true);
+	});
+
+	it('should return true when given a correct password', () => {
+		const userPassword = '12345678';
+
+		const userPasswordOrError = UserPassword.create({ value: userPassword });
+		const hashedUserPassword = userPasswordOrError.getValue().getHashedValue();
+		const hashedUserPasswordOrError = UserPassword.create({
+			value: hashedUserPassword,
+			isHashed: true,
+		});
+
+		expect(userPasswordOrError.getValue().comparePassword(userPassword)).toBe(true);
+		expect(hashedUserPasswordOrError.getValue().comparePassword(userPassword)).toBe(true);
+	});
+
+	it('should return false when given an incorrect password', () => {
+		const userPassword = '12345678';
+		const inCorrectUserPassword = 'incorrect-user-password';
+
+		const userPasswordOrError = UserPassword.create({ value: userPassword });
+		const hashedUserPassword = userPasswordOrError.getValue().getHashedValue();
+		const hashedUserPasswordOrError = UserPassword.create({
+			value: hashedUserPassword,
+			isHashed: true,
+		});
+
+		expect(userPasswordOrError.getValue().comparePassword(inCorrectUserPassword)).toBe(false);
+		expect(hashedUserPasswordOrError.getValue().comparePassword(inCorrectUserPassword)).toBe(false);
 	});
 });
