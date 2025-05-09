@@ -10,4 +10,12 @@ describe('UserPassword Unit', () => {
 		expect(userPasswordOrError.isSuccess).toBe(true);
 		expect(userPasswordOrError.getValue().value).toBe(userPassword);
 	});
+
+	it('should return fail when given an empty user password', () => {
+		const userPassword = '';
+
+		const userPasswordOrError = UserPassword.create({ value: userPassword });
+
+		expect(userPasswordOrError.isFailure).toBe(true);
+	});
 });
