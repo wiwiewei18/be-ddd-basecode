@@ -1,15 +1,16 @@
 import { beforeEach, describe, expect, it } from 'bun:test';
 import { User, type UserProps } from './user';
+import { UserEmail } from './userEmail';
 import { UserName } from './userName';
 
 describe('User Unit', () => {
 	let name: UserName;
-	let email: string;
+	let email: UserEmail;
 	let password: string;
 
 	beforeEach(() => {
 		name = UserName.create('Monkey D Luffy').getValue();
-		email = 'monkeydluffy@mugiwara.com';
+		email = UserEmail.create('monkeydluffy@mugiwara.com').getValue();
 		password = '1234578';
 	});
 
@@ -27,18 +28,6 @@ describe('User Unit', () => {
 		expect(user.name.equals(name)).toBe(true);
 		expect(user.email).toBe(email);
 		expect(user.password).toBe(password);
-	});
-
-	it('should return fail when given a user props with an empty email', () => {
-		const userProps: UserProps = {
-			name,
-			email: '',
-			password,
-		};
-
-		const userOrError = User.create(userProps);
-
-		expect(userOrError.isFailure).toBe(true);
 	});
 
 	it('should return fail when given a user props with an empty password', () => {
