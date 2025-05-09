@@ -1,9 +1,10 @@
 import { Guard } from '@shared/core/guard';
 import { Result, type SuccessOrFailure } from '@shared/core/result';
 import { AggregateRoot } from '@shared/domain/aggregateRoot';
+import type { UserName } from './userName';
 
 export type UserProps = {
-	name: string;
+	name: UserName;
 	email: string;
 	password: string;
 };
