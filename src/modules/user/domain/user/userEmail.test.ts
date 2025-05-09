@@ -18,4 +18,21 @@ describe('UserEmail Unit', () => {
 
 		expect(userEmailOrError.isFailure).toBe(true);
 	});
+
+	it('should return fail when given an invalid format user email', () => {
+		const userEmail = 'invalid-format-user-email';
+
+		const userEmailOrError = UserEmail.create(userEmail);
+
+		expect(userEmailOrError.isFailure).toBe(true);
+	});
+
+	it('should return success and the lowercase user email when given a uppercase user email', () => {
+		const userEmail = 'MONKEYDLUFFY@MUGIWARA.COM';
+
+		const userEmailOrError = UserEmail.create(userEmail);
+
+		expect(userEmailOrError.isSuccess).toBe(true);
+		expect(userEmailOrError.getValue().value).toBe(userEmail.toLowerCase());
+	});
 });
