@@ -35,4 +35,13 @@ describe('UserPassword Unit', () => {
 
 		expect(userPasswordOrError.isFailure).toBe(true);
 	});
+
+	it(`should return success and hashed user password when given a valid user password`, () => {
+		const userPassword = '12346578';
+
+		const userPasswordOrError = UserPassword.create({ value: userPassword });
+
+		expect(userPasswordOrError.isSuccess).toBe(true);
+		expect(userPasswordOrError.getValue().getHashedValue() !== userPassword).toBe(true);
+	});
 });

@@ -1,6 +1,7 @@
 import { Guard } from '@shared/core/guard';
 import { Result, type SuccessOrFailure } from '@shared/core/result';
 import { ValueObject } from '@shared/domain/valueObject';
+import bcrypt from 'bcryptjs';
 
 export type UserPasswordProps = {
 	value: string;
@@ -39,5 +40,17 @@ export class UserPassword extends ValueObject<UserPasswordProps> {
 		return (
 			userPassword.length >= UserPassword.minLength && userPassword.length <= UserPassword.maxLength
 		);
+	}
+
+	public getHashedValue(): string {
+		return this.isAlreadyHashed() ? this.props.value : this.hashPassword(this.props.value);
+	}
+
+	public isAlreadyHashed(): boolean {
+		return this.props.isHashed ?? false;
+	}
+
+	private hashPassword(userPassword: string): string {
+		return bcrypt.hashSync(userPassword, 10);
 	}
 }
