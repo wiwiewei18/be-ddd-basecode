@@ -10,4 +10,12 @@ describe('UserEmail Unit', () => {
 		expect(userEmailOrError.isSuccess).toBe(true);
 		expect(userEmailOrError.getValue().value).toBe(userEmail);
 	});
+
+	it('should return fail when given an empty user email', () => {
+		const userEmail = '';
+
+		const userEmailOrError = UserEmail.create(userEmail);
+
+		expect(userEmailOrError.isFailure).toBe(true);
+	});
 });
