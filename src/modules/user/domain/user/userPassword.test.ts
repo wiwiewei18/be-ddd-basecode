@@ -27,4 +27,12 @@ describe('UserPassword Unit', () => {
 
 		expect(userPasswordOrError.isFailure).toBe(true);
 	});
+
+	it(`should return fail when given a more than ${UserPassword.maxLength} user password`, () => {
+		const userPassword = TextUtil.getRandomText(UserPassword.maxLength + 1);
+
+		const userPasswordOrError = UserPassword.create({ value: userPassword });
+
+		expect(userPasswordOrError.isFailure).toBe(true);
+	});
 });
