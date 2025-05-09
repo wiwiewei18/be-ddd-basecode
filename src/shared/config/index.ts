@@ -2,6 +2,13 @@ import type { WebServerConfig } from '@shared/http/webServer';
 
 type Environment = 'development' | 'test' | 'production';
 
+type DatabaseConfig = {
+	host: string;
+	database: string;
+	user: string;
+	password: string;
+};
+
 export class Config {
 	private env: Environment;
 
@@ -16,6 +23,15 @@ export class Config {
 	getWebServerConfig(): WebServerConfig {
 		return {
 			port: Number(this.getRequiredConfig('PORT')),
+		};
+	}
+
+	getDatabaseConfig(): DatabaseConfig {
+		return {
+			host: this.getRequiredConfig('DB_HOST'),
+			database: this.getRequiredConfig('DB_NAME'),
+			user: this.getRequiredConfig('DB_USER'),
+			password: this.getRequiredConfig('DB_PASSWORD'),
 		};
 	}
 

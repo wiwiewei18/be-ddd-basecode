@@ -7,6 +7,9 @@ const compositionRoot = CompositionRoot.create(config);
 
 const webServer = compositionRoot.getWebServer();
 
+export const database = compositionRoot.getDatabase();
+
 export async function bootstrap() {
+	database.connect();
 	webServer.start();
 }
