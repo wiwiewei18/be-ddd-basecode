@@ -1,4 +1,5 @@
 import { describe, expect, it } from 'bun:test';
+import { TextUtil } from '@shared/utils/textUtil';
 import { UserPassword } from './userPassword';
 
 describe('UserPassword Unit', () => {
@@ -13,6 +14,14 @@ describe('UserPassword Unit', () => {
 
 	it('should return fail when given an empty user password', () => {
 		const userPassword = '';
+
+		const userPasswordOrError = UserPassword.create({ value: userPassword });
+
+		expect(userPasswordOrError.isFailure).toBe(true);
+	});
+
+	it(`should return fail when given a less than ${UserPassword.minLength} user password`, () => {
+		const userPassword = TextUtil.getRandomText(UserPassword.minLength - 1);
 
 		const userPasswordOrError = UserPassword.create({ value: userPassword });
 

@@ -8,6 +8,8 @@ export type UserPasswordProps = {
 };
 
 export class UserPassword extends ValueObject<UserPasswordProps> {
+	static minLength = 8;
+
 	get value() {
 		return this.props.value;
 	}
@@ -18,11 +20,19 @@ export class UserPassword extends ValueObject<UserPasswordProps> {
 			return Result.fail(`${nothingGuard.getErrorValue()} on create User Password`);
 		}
 
+		if (!props.isHashed && !UserPassword.isAppropriateLength(props.value)) {
+			return Result.fail(`Password doesn't meet criteria, min ${UserPassword.minLength} chars`);
+		}
+
 		return Result.ok(
 			new UserPassword({
 				value: props.value,
 				isHashed: !!props.isHashed === true,
 			}),
 		);
+	}
+
+	private static isAppropriateLength(userPassword: string): boolean {
+		return userPassword.length >= UserPassword.minLength;
 	}
 }
