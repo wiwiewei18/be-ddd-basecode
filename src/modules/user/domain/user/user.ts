@@ -3,11 +3,12 @@ import { Result, type SuccessOrFailure } from '@shared/core/result';
 import { AggregateRoot } from '@shared/domain/aggregateRoot';
 import type { UserEmail } from './userEmail';
 import type { UserName } from './userName';
+import type { UserPassword } from './userPassword';
 
 export type UserProps = {
 	name: UserName;
 	email: UserEmail;
-	password: string;
+	password: UserPassword;
 };
 
 export class User extends AggregateRoot<UserProps> {
