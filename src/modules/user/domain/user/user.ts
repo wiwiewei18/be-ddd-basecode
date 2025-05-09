@@ -36,7 +36,7 @@ export class User extends AggregateRoot<UserProps> {
 			{ argument: props.password, argumentName: 'password' },
 		]);
 		if (nothingGuard.isFailure) {
-			return Result.fail(nothingGuard.getErrorValue());
+			return Result.fail(`${nothingGuard.getErrorValue()} on create User`);
 		}
 
 		const user = new User({ ...props }, id);
