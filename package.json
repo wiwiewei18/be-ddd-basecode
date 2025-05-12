@@ -15,12 +15,18 @@
 		"test:infra": "bun test --test-name-pattern=Infra",
 		"test:infra:dev": "bun test --test-name-pattern=Infra --watch",
 		"test:e2e": "bun test --test-name-pattern=E2E",
-		"test:e2e:dev": "bun test --test-name-pattern=E2E --watch"
+		"test:e2e:dev": "bun test --test-name-pattern=E2E --watch",
+		"generate-schema:dev": "dotenvx run --env-file=.env.development -- bunx drizzle-kit generate",
+		"drizzle-check:dev": "dotenvx run --env-file=.env.development -- bunx drizzle-kit check",
+		"drizzle-push:dev": "dotenvx run --env-file=.env.development -- bunx drizzle-kit push",
+		"drizzle-drop:dev": "dotenvx run --env-file=.env.development -- bunx drizzle-kit drop"
 	},
 	"devDependencies": {
 		"@biomejs/biome": "^1.9.4",
+		"@dotenvx/dotenvx": "^1.43.0",
 		"@types/bun": "latest",
 		"@types/pg": "^8.15.1",
+		"drizzle-kit": "^0.31.1",
 		"husky": "^9.1.7",
 		"ts-node": "^10.9.2"
 	},

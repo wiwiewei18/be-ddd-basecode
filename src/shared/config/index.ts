@@ -4,9 +4,9 @@ type Environment = 'development' | 'test' | 'production';
 
 type DatabaseConfig = {
 	host: string;
-	database: string;
 	user: string;
 	password: string;
+	database: string;
 };
 
 export class Config {
@@ -29,9 +29,9 @@ export class Config {
 	getDatabaseConfig(): DatabaseConfig {
 		return {
 			host: this.getRequiredConfig('DB_HOST'),
-			database: this.getRequiredConfig('DB_NAME'),
 			user: this.getRequiredConfig('DB_USER'),
 			password: this.getRequiredConfig('DB_PASSWORD'),
+			database: this.getRequiredConfig('DB_NAME'),
 		};
 	}
 

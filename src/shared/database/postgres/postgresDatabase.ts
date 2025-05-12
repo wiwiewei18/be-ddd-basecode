@@ -9,9 +9,9 @@ const config = new Config().getDatabaseConfig();
 
 const postgresConnection = new Client({
 	host: config.host,
-	database: config.database,
 	user: config.user,
 	password: config.password,
+	database: config.database,
 });
 
 export class PostgresDatabase implements Database {
