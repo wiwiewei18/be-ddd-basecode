@@ -20,7 +20,7 @@ describe('UserPassword Unit', () => {
 		expect(userPasswordOrError.isFailure).toBe(true);
 	});
 
-	it(`should return fail when given a less than ${UserPassword.minLength} user password`, () => {
+	it(`should return fail when given a less than ${UserPassword.minLength} chars user password`, () => {
 		const userPassword = TextUtil.getRandomText(UserPassword.minLength - 1);
 
 		const userPasswordOrError = UserPassword.create({ value: userPassword });
@@ -28,7 +28,7 @@ describe('UserPassword Unit', () => {
 		expect(userPasswordOrError.isFailure).toBe(true);
 	});
 
-	it(`should return fail when given a more than ${UserPassword.maxLength} user password`, () => {
+	it(`should return fail when given a more than ${UserPassword.maxLength} chars user password`, () => {
 		const userPassword = TextUtil.getRandomText(UserPassword.maxLength + 1);
 
 		const userPasswordOrError = UserPassword.create({ value: userPassword });
