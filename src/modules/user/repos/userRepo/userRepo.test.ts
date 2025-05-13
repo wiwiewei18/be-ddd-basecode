@@ -34,7 +34,7 @@ describe('UserRepo Infra', () => {
 		}
 	});
 
-	it('should return the user when given a valid user id', async () => {
+	it('should return found and the user when given a valid user id', async () => {
 		for (const userRepo of userRepos) {
 			await userRepo.save(userToSave);
 			const savedUser = await userRepo.getUserByUserId(userToSave.userId);
@@ -45,6 +45,16 @@ describe('UserRepo Infra', () => {
 			expect(user.name.equals(user.name)).toBe(true);
 			expect(user.email.equals(user.email)).toBe(true);
 			expect(user.password.equals(user.password)).toBe(true);
+		}
+	});
+
+	it('should return not found when given a non-existing user id', async () => {
+		for (const userRepo of userRepos) {
+			const nonExistingUserId = 'non-existing-user-id';
+
+			const savedUser = await userRepo.getUserByUserId(nonExistingUserId);
+
+			expect(savedUser.isNotFound).toBe(true);
 		}
 	});
 });
