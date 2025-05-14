@@ -6,6 +6,7 @@ import type { UserRepo } from '@modules/user/repos/userRepo/userRepo';
 import { type Either, left, right } from '@shared/core/either';
 import { Result, type SuccessOrFailure } from '@shared/core/result';
 import type { UseCase } from '@shared/core/useCase';
+import { SignUpErrors } from './signUpErrors';
 
 export type SignUpRequest = {
 	name: string;
@@ -35,6 +36,11 @@ export class SignUpUseCase implements UseCase<SignUpRequest, SignUpResponse> {
 		const name = nameOrError.getValue();
 		const email = emailOrError.getValue();
 		const password = passwordOrError.getValue();
+
+		const searchedUserByEmail = await this.userRepo.getUserByEmail(email);
+		if (searchedUserByEmail.isFound) {
+			return left(new SignUpErrors.EmailAlreadyTaken(email));
+		}
 
 		const userOrError = User.create({
 			name,

@@ -7,6 +7,7 @@ import {
 } from '@shared/http/baseController';
 import type { Context, MiddlewareHandler } from 'hono';
 import { type SignUpBodySchema, signUpBodySchema } from './signUpBodySchema';
+import { SignUpErrors } from './signUpErrors';
 import type { SignUpUseCase } from './signUpUseCase';
 
 export class SignUpController extends BaseController {
@@ -31,6 +32,8 @@ export class SignUpController extends BaseController {
 			const error = result.value;
 
 			switch (error.constructor) {
+				case SignUpErrors.EmailAlreadyTaken:
+					return this.clientError(context, error.getErrorValue());
 				default:
 					return this.fail(context, error.getErrorValue());
 			}

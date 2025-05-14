@@ -89,6 +89,24 @@ describe('SignUpUseCase Unit', () => {
 	});
 
 	it(`
+    Scenario: Fail to sign up with a taken email
+        Given Unauthenticated user provides a user with a taken email
+        When Unauthenticated user attempts to sign up
+        Then The user should be not be created
+    `, async () => {
+		const signUpRequest: SignUpRequest = {
+			name,
+			email,
+			password,
+		};
+
+		await signUpUseCase.execute(signUpRequest);
+		const takenEmailSignUpOutput: SignUpResponse = await signUpUseCase.execute(signUpRequest);
+
+		expect(takenEmailSignUpOutput.isLeft()).toBe(true);
+	});
+
+	it(`
     Scenario: Fail to sign up with an empty password
         Given Unauthenticated user provides a user with an empty password
         When Unauthenticated user attempts to sign up
