@@ -124,4 +124,20 @@ export class WebServer {
 			this.hono.route(path, subApp);
 		}
 	}
+
+	async stop() {
+		if (!this.instance) throw new Error(`Server not started`);
+
+		this.instance.stop();
+
+		this.state = 'stopped';
+	}
+
+	getServer() {
+		return this.instance;
+	}
+
+	isStarted() {
+		return this.state === 'started';
+	}
 }
