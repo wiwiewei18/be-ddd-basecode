@@ -14,7 +14,10 @@ export type SignUpRequest = {
 	password: string;
 };
 
-export type SignUpResponse = Either<SuccessOrFailure<unknown>, SuccessOrFailure<void>>;
+export type SignUpResponse = Either<
+	SuccessOrFailure<unknown> | SignUpErrors.EmailAlreadyTaken,
+	SuccessOrFailure<void>
+>;
 
 export class SignUpUseCase implements UseCase<SignUpRequest, SignUpResponse> {
 	constructor(private userRepo: UserRepo) {}

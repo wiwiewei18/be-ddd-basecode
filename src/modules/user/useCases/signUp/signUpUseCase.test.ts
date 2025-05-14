@@ -32,9 +32,9 @@ describe('SignUpUseCase Unit', () => {
 			password,
 		};
 
-		const signUpOutput: SignUpResponse = await signUpUseCase.execute(signUpRequest);
+		const signUpResponse: SignUpResponse = await signUpUseCase.execute(signUpRequest);
 
-		expect(signUpOutput.isRight()).toBe(true);
+		expect(signUpResponse.isRight()).toBe(true);
 	});
 
 	it(`
@@ -49,9 +49,9 @@ describe('SignUpUseCase Unit', () => {
 			password,
 		};
 
-		const signUpOutput: SignUpResponse = await signUpUseCase.execute(signUpRequest);
+		const signUpResponse: SignUpResponse = await signUpUseCase.execute(signUpRequest);
 
-		expect(signUpOutput.isLeft()).toBe(true);
+		expect(signUpResponse.isLeft()).toBe(true);
 	});
 
 	it(`
@@ -66,9 +66,9 @@ describe('SignUpUseCase Unit', () => {
 			password,
 		};
 
-		const signUpOutput: SignUpResponse = await signUpUseCase.execute(signUpRequest);
+		const signUpResponse: SignUpResponse = await signUpUseCase.execute(signUpRequest);
 
-		expect(signUpOutput.isLeft()).toBe(true);
+		expect(signUpResponse.isLeft()).toBe(true);
 	});
 
 	it(`
@@ -83,9 +83,9 @@ describe('SignUpUseCase Unit', () => {
 			password,
 		};
 
-		const signUpOutput: SignUpResponse = await signUpUseCase.execute(signUpRequest);
+		const signUpResponse: SignUpResponse = await signUpUseCase.execute(signUpRequest);
 
-		expect(signUpOutput.isLeft()).toBe(true);
+		expect(signUpResponse.isLeft()).toBe(true);
 	});
 
 	it(`
@@ -101,9 +101,9 @@ describe('SignUpUseCase Unit', () => {
 		};
 
 		await signUpUseCase.execute(signUpRequest);
-		const takenEmailSignUpOutput: SignUpResponse = await signUpUseCase.execute(signUpRequest);
+		const takenEmailSignUpResponse: SignUpResponse = await signUpUseCase.execute(signUpRequest);
 
-		expect(takenEmailSignUpOutput.isLeft()).toBe(true);
+		expect(takenEmailSignUpResponse.isLeft()).toBe(true);
 	});
 
 	it(`
@@ -118,9 +118,9 @@ describe('SignUpUseCase Unit', () => {
 			password: '',
 		};
 
-		const signUpOutput: SignUpResponse = await signUpUseCase.execute(signUpRequest);
+		const signUpResponse: SignUpResponse = await signUpUseCase.execute(signUpRequest);
 
-		expect(signUpOutput.isLeft()).toBe(true);
+		expect(signUpResponse.isLeft()).toBe(true);
 	});
 
 	it(`
@@ -135,9 +135,9 @@ describe('SignUpUseCase Unit', () => {
 			password: TextUtil.getRandomText(UserPassword.minLength - 1),
 		};
 
-		const signUpOutput: SignUpResponse = await signUpUseCase.execute(signUpRequest);
+		const signUpResponse: SignUpResponse = await signUpUseCase.execute(signUpRequest);
 
-		expect(signUpOutput.isLeft()).toBe(true);
+		expect(signUpResponse.isLeft()).toBe(true);
 	});
 
 	it(`
@@ -152,8 +152,8 @@ describe('SignUpUseCase Unit', () => {
 			password: TextUtil.getRandomText(UserPassword.maxLength + 1),
 		};
 
-		const signUpOutput: SignUpResponse = await signUpUseCase.execute(signUpRequest);
+		const signUpResponse: SignUpResponse = await signUpUseCase.execute(signUpRequest);
 
-		expect(signUpOutput.isLeft()).toBe(true);
+		expect(signUpResponse.isLeft()).toBe(true);
 	});
 });
