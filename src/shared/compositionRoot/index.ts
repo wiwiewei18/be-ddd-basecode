@@ -1,6 +1,7 @@
+import { UserModule } from '@modules/user/userModule';
 import type { Config } from '@shared/config';
 import type { Database } from '@shared/database';
-import { PostgresDatabase } from '@shared/database/postgres/PostgresDatabase';
+import { PostgresDatabase } from '@shared/database/postgres/postgresDatabase';
 import { WebServer } from '@shared/http/webServer';
 
 export class CompositionRoot {
@@ -10,10 +11,16 @@ export class CompositionRoot {
 	private webServer: WebServer;
 	private database: Database;
 
+	private userModule: UserModule;
+
 	private constructor(config: Config) {
 		this.config = config;
 		this.webServer = new WebServer(this.config.getWebServerConfig());
 		this.database = this.createDatabase();
+
+		this.userModule = UserModule.build(config, this.database);
+
+		this.mountRoutes();
 	}
 
 	static create(config: Config) {
@@ -36,5 +43,9 @@ export class CompositionRoot {
 
 	private createDatabase(): Database {
 		return new PostgresDatabase();
+	}
+
+	private mountRoutes() {
+		this.userModule.mountRouter(this.webServer);
 	}
 }

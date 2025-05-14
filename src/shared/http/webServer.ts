@@ -3,9 +3,10 @@ import { swaggerUI } from '@hono/swagger-ui';
 import { type Hook, OpenAPIHono } from '@hono/zod-openapi';
 import { logger } from '@shared/logger';
 import type { Server } from 'bun';
-import type { Env } from 'hono';
+import type { Env, MiddlewareHandler } from 'hono';
 import { cors } from 'hono/cors';
 import { logger as httpAPILogger } from 'hono/logger';
+import type { BaseController } from './baseController';
 import type { HttpAPIResponseFormat } from './httpAPIResponse';
 
 export type WebServerConfig = {
@@ -102,5 +103,25 @@ export class WebServer {
 					: `port ${this.config.port}`
 			}`,
 		);
+	}
+
+	setupRoutes(controllers: BaseController[]) {
+		for (const controller of controllers) {
+			this.setUpMiddlewares(controller.path, controller.middlewares);
+
+			this.hono.openapi(controller.getRoute(), async (context) => controller.execute(context));
+		}
+	}
+
+	private setUpMiddlewares(path: string, middlewares?: MiddlewareHandler[]) {
+		if (middlewares) {
+			const subApp = new OpenAPIHono();
+
+			for (const middleware of middlewares) {
+				subApp.use(middleware);
+			}
+
+			this.hono.route(path, subApp);
+		}
 	}
 }
