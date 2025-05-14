@@ -1,4 +1,5 @@
 import type { User } from '@modules/user/domain/user/user';
+import type { UserEmail } from '@modules/user/domain/user/userEmail';
 import { UserMap } from '@modules/user/mapper/userMap';
 import { type Maybe, Result } from '@shared/core/result';
 import type { Database, PostgresClient } from '@shared/database/database';
@@ -35,6 +36,20 @@ export class PostgresUserRepo implements UserRepo {
 
 		if (!rawUsers[0]) {
 			return Result.notFound(`User with user id ${userId} not found`);
+		}
+
+		return Result.found(UserMap.toDomain(rawUsers[0]));
+	}
+
+	async getUserByEmail(email: UserEmail): Promise<Maybe<User>> {
+		const rawUsers = await this.client
+			.select()
+			.from(userTable)
+			.limit(1)
+			.where(eq(userTable.email, email.value));
+
+		if (!rawUsers[0]) {
+			return Result.notFound(`User with email ${email.value} not found`);
 		}
 
 		return Result.found(UserMap.toDomain(rawUsers[0]));
