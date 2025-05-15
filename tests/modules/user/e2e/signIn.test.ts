@@ -1,9 +1,11 @@
 import { afterAll, beforeAll, describe, expect, test } from 'bun:test';
+import { UserPassword } from '@modules/user/domain/user/userPassword';
 import type { SignInBodySchema } from '@modules/user/useCases/signIn/signInBodySchema';
 import type { SignUpBodySchema } from '@modules/user/useCases/signUp/signUpBodySchema';
 import { CompositionRoot } from '@shared/compositionRoot';
 import { Config } from '@shared/config';
 import { RESTfulAPIDriver } from '@shared/http/restfulAPIDriver';
+import { TextUtil } from '@shared/utils/textUtil';
 
 describe('SignIn E2E', () => {
 	const config = new Config();
@@ -51,14 +53,110 @@ describe('SignIn E2E', () => {
 	});
 
 	test(`
-    Scenario: Fail to sign in with an invalid user credential
-        Given Unauthenticated user provides an invalid user credential
+    Scenario: Fail to sign in with an invalid email
+        Given Unauthenticated user provides an invalid email
         When Unauthenticated user attempts to sign in
         Then The user should not be signed in
     `, async () => {
 		const signInBodySchema: SignInBodySchema = {
-			email: 'invalid-user-credential@mugiwara.com',
-			password: 'invalid-user-credential',
+			email: 'invalid-user-email@mugiwara.com',
+			password,
+		};
+
+		const response = await restfulAPIDriver.post('/sign-in', signInBodySchema);
+
+		expect(response.ok).toBe(false);
+	});
+
+	test(`
+    Scenario: Fail to sign in with an invalid password
+        Given Unauthenticated user provides an invalid password
+        When Unauthenticated user attempts to sign in
+        Then The user should not be signed in
+    `, async () => {
+		const signInBodySchema: SignInBodySchema = {
+			email,
+			password: 'invalid-user-password',
+		};
+
+		const response = await restfulAPIDriver.post('/sign-in', signInBodySchema);
+
+		expect(response.ok).toBe(false);
+	});
+
+	test(`
+    Scenario: Fail to sign in with an empty email
+        Given Unauthenticated user provides an user with an empty email
+        When Unauthenticated user attempts to sign in
+        Then The user should not be signed in
+    `, async () => {
+		const signInBodySchema: SignInBodySchema = {
+			email: '',
+			password,
+		};
+
+		const response = await restfulAPIDriver.post('/sign-in', signInBodySchema);
+
+		expect(response.ok).toBe(false);
+	});
+
+	test(`
+    Scenario: Fail to sign in with an invalid format email
+        Given Unauthenticated user provides an user with an invalid format email
+        When Unauthenticated user attempts to sign in
+        Then The user should not be signed in
+    `, async () => {
+		const signInBodySchema: SignInBodySchema = {
+			email: 'invalid-format-email',
+			password,
+		};
+
+		const response = await restfulAPIDriver.post('/sign-in', signInBodySchema);
+
+		expect(response.ok).toBe(false);
+	});
+
+	test(`
+	Scenario: Fail to sign in with an empty password
+        Given Unauthenticated user provides an user with an empty password
+        When Unauthenticated user attempts to sign in
+        Then The user should not be signed in
+    `, async () => {
+		const signInBodySchema: SignInBodySchema = {
+			email,
+			password: '',
+		};
+
+		const response = await restfulAPIDriver.post('/sign-in', signInBodySchema);
+
+		expect(response.ok).toBe(false);
+	});
+
+	test(`
+    Scenario: Fail to sign in with a less than 8 chars password
+        Given Unauthenticated user provides an user with a less than 8 chars password
+        When Unauthenticated user attempts to sign in
+        Then The user should not be signed in
+    `, async () => {
+		const signInBodySchema: SignInBodySchema = {
+			email,
+			password: TextUtil.getRandomText(UserPassword.minLength - 1),
+		};
+
+		const response = await restfulAPIDriver.post('/sign-in', signInBodySchema);
+
+		expect(response.ok).toBe(false);
+	});
+
+	test(`
+    Scenario: Fail to sign in with a more than 50 chars password
+        Given Unauthenticated user provides an user with a more than 50 chars password
+        When Unauthenticated user attempts to sign in
+        Then The user should not be signed in
+    `, async () => {
+		const signInBodySchema: SignInBodySchema = {
+			email,
+			password: TextUtil.getRandomText(UserPassword.maxLength + 1),
 		};
 
 		const response = await restfulAPIDriver.post('/sign-in', signInBodySchema);
