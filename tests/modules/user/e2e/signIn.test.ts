@@ -51,7 +51,7 @@ describe('SignIn E2E', () => {
 	});
 
 	test(`
-    Scenario: Successfully sign in
+    Scenario: Fail to sign in with an invalid user credential
         Given Unauthenticated user provides an invalid user credential
         When Unauthenticated user attempts to sign in
         Then The user should not be signed in
