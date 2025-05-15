@@ -2,6 +2,7 @@ import { User } from '../domain/user/user';
 import { UserEmail } from '../domain/user/userEmail';
 import { UserName } from '../domain/user/userName';
 import { UserPassword } from '../domain/user/userPassword';
+import type { UserDTO } from '../dtos/userDTO';
 import type { UserModelSchema } from '../repos/userRepo/user.schema';
 
 // biome-ignore lint/complexity/noStaticOnlyClass: <explanation>
@@ -24,5 +25,12 @@ export class UserMap {
 				isHashed: true,
 			}).getValue(),
 		}).getValue();
+	}
+
+	static toDTO(user: User): UserDTO {
+		return {
+			user_id: user.userId,
+			name: user.name.value,
+		};
 	}
 }
