@@ -47,4 +47,20 @@ describe('SignUpUseCase Unit', () => {
 
 		expect(signInResponse.isRight()).toBe(true);
 	});
+
+	it(`
+    Scenario: Successfully sign in
+        Given Unauthenticated user provides an invalid user credential
+        When Unauthenticated user attempts to sign in
+        Then The user should not be signed in
+    `, async () => {
+		const signInRequest: SignInRequest = {
+			email: 'invalid-user-credential@mugiwara.com',
+			password: 'invalid-user-credential',
+		};
+
+		const signInResponse: SignInResponse = await signInUseCase.execute(signInRequest);
+
+		expect(signInResponse.isLeft()).toBe(true);
+	});
 });
