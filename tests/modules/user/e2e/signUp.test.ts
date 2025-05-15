@@ -15,7 +15,7 @@ describe('SignUp E2E', () => {
 
 	const name = 'Monkey D Luffy';
 	const email = 'monkeydluffy@mugiwara.com';
-	const password = '13245678';
+	const password = '12345678';
 
 	beforeAll(async () => {
 		await webServer.start();

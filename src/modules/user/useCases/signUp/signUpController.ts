@@ -46,6 +46,9 @@ export class SignUpController extends BaseController {
 		return {
 			isNeedAuth: false,
 			tagName: 'User',
+			request: {
+				body: signUpBodySchema,
+			},
 			failureResponses: [
 				{
 					code: 400,
@@ -59,9 +62,6 @@ export class SignUpController extends BaseController {
 					}),
 				},
 			],
-			request: {
-				body: signUpBodySchema,
-			},
 		};
 	}
 }
