@@ -1,4 +1,5 @@
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'bun:test';
+import type { User } from '@modules/user/domain/user/user';
 import { UserEmail } from '@modules/user/domain/user/userEmail';
 import { database } from '@shared/bootstrap';
 import { UserBuilder } from '../tests/builders/user/userBuilder';
@@ -10,16 +11,18 @@ import type { UserRepo } from './userRepo';
 describe('UserRepo Infra', () => {
 	let userRepos: UserRepo[] = [];
 
-	const userToSave = new UserBuilder().withAllRandomDetails().build();
+	let userToSave: User;
 
 	beforeAll(async () => {
 		await database.connect();
 	});
 
 	beforeEach(async () => {
+		await database.getClient().delete(userTable);
+
 		userRepos = [new InMemoryUserRepo(), new PostgresUserRepo(database)];
 
-		await database.getClient().delete(userTable);
+		userToSave = new UserBuilder().withAllRandomDetails().build();
 	});
 
 	afterAll(async () => {

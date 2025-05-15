@@ -1,21 +1,18 @@
 import { beforeEach, describe, expect, it } from 'bun:test';
 import { UserPassword } from '@modules/user/domain/user/userPassword';
 import { InMemoryUserRepo } from '@modules/user/repos/userRepo/inMemoryUserRepo';
-import type { UserRepo } from '@modules/user/repos/userRepo/userRepo';
 import { TextUtil } from '@shared/utils/textUtil';
 import { type SignUpRequest, type SignUpResponse, SignUpUseCase } from './signUpUseCase';
 
 describe('SignUpUseCase Unit', () => {
-	let userRepo: UserRepo;
-
-	let signUpUseCase: SignUpUseCase;
-
 	const name = 'Monkey D Luffy';
 	const email = 'monkeydluffy@mugiwara.com';
 	const password = '13245678';
 
+	let signUpUseCase: SignUpUseCase;
+
 	beforeEach(() => {
-		userRepo = new InMemoryUserRepo();
+		const userRepo = new InMemoryUserRepo();
 
 		signUpUseCase = new SignUpUseCase(userRepo);
 	});

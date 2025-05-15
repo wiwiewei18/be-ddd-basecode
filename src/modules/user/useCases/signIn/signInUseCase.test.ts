@@ -3,32 +3,25 @@ import type { User } from '@modules/user/domain/user/user';
 import { UserPassword } from '@modules/user/domain/user/userPassword';
 import { UserFixture } from '@modules/user/repos/tests/fixtures/userFixture';
 import { InMemoryUserRepo } from '@modules/user/repos/userRepo/inMemoryUserRepo';
-import type { UserRepo } from '@modules/user/repos/userRepo/userRepo';
-import type { AuthService } from '@modules/user/services/authService/authService';
 import { JWTAuthService } from '@modules/user/services/authService/jwtAuthService';
 import { Config } from '@shared/config';
 import { TextUtil } from '@shared/utils/textUtil';
 import { type SignInRequest, type SignInResponse, SignInUseCase } from './signInUseCase';
 
 describe('SignUpUseCase Unit', () => {
-	let userRepo: UserRepo;
-
-	let authService: AuthService;
+	let user: User;
 
 	let signInUseCase: SignInUseCase;
 
-	let userFixture: UserFixture;
-
-	let user: User;
-
 	beforeEach(async () => {
-		userRepo = new InMemoryUserRepo();
-
 		const config = new Config();
-		authService = new JWTAuthService(config.getAuthConfig());
+		const authService = new JWTAuthService(config.getAuthConfig());
 
-		userFixture = new UserFixture(userRepo);
+		const userRepo = new InMemoryUserRepo();
+
+		const userFixture = new UserFixture(userRepo);
 		const userFixtureResult = await userFixture.build();
+
 		user = userFixtureResult.user;
 
 		signInUseCase = new SignInUseCase(userRepo, authService);
